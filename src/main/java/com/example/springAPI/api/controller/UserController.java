@@ -1,5 +1,6 @@
 package com.example.springAPI.api.controller;
 
+import com.example.springAPI.api.model.Message;
 import com.example.springAPI.api.model.User;
 import com.example.springAPI.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,18 @@ public class UserController {
             return ResponseEntity.ok(userData);
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/users/new")
+    @ResponseBody
+    public ResponseEntity<Message> addUser(@RequestBody User user) {
+        boolean success = userService.addUser(user);
+
+        if (success) {
+            return ResponseEntity.ok(new Message("User added successfully"));
+        } else {
+            return ResponseEntity.ok(new Message("User already exists"));
         }
     }
 }

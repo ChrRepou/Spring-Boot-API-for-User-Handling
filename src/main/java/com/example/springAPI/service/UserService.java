@@ -30,4 +30,19 @@ public class UserService {
     public Optional<User> getUserByUsername(String username) {
         return users.stream().filter(user -> user.getUsername().equals(username)).findFirst();
     }
+
+    public boolean addUser(User user) {
+        String username = user.getUsername();
+        String email = user.getEmail();
+
+        boolean usernameExists = users.stream().anyMatch(u -> u.getUsername().equals(username));
+        boolean emailExists = users.stream().anyMatch(u -> u.getEmail().equals(email));
+
+        if (usernameExists || emailExists) {
+            return false;
+        } else {
+            users.add(user);
+            return true;
+        }
+    }
 }
